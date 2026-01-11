@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Motor Cegonha — Site Educacional</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f0ff;
+            color: #333;
+        }
+
+        header {
+            background: #6a0dad;
+            color: white;
+            padding: 25px;
+            text-align: center;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #6a0dad;
+        }
+
+        pre {
+            background: #f0e6ff;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+
+        /* Imagem flutuante */
+        .flutuar {
+            animation: flutuar 4s ease-in-out infinite;
+        }
+
+        @keyframes flutuar {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+            100% { transform: translateY(0); }
+        }
+
+        /* Imagem a correr */
+        .faixa {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            height: 180px;
+            border-radius: 10px;
+            background: linear-gradient(90deg, #ffe4f2, #e0f2ff);
+            border: 2px solid #c28bff;
+            margin-top: 20px;
+        }
+
+        .img-corre {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            animation: correr 12s linear infinite;
+        }
+
+        @keyframes correr {
+            0%   { left: -250px; }
+            100% { left: 100%; }
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            color: #555;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    Motor Cegonha — Educação Universal
+</header>
+
+<div class="container">
+
+    <h2>📘 O que é o Motor Cegonha?</h2>
+    <p>
+        O Motor Cegonha é uma mini‑linguagem universal criada para ensinar pessoas a programar de forma simples,
+        segura e acessível. Funciona em qualquer HTML, até nos sistemas mais limitados como o Blogger.
+    </p>
+
+    <h2>🧮 Exemplo de Contas</h2>
+    <pre>
+<cegonha>
+a = 23*45/2
+b = 34**5/23
+c = (12*12)+45
+
+cegonha("A = ")
+cegonha(a)
+cegonha("<br>B = ")
+cegonha(b)
+cegonha("<br>C = ")
+cegonha(c)
+</cegonha>
+    </pre>
+
+    <h2>🌟 Verso Espiritual</h2>
+    <p class="flutuar" style="font-size:22px; text-align:center; color:#6a0dad;">
+        “Deus é Pai, luz que nunca se apaga.”
+    </p>
+
+    <h2>🕊️ Imagem a Correr</h2>
+    <div class="faixa">
+        <img class="img-corre"
+             src="https://i.pinimg.com/736x/8a/ec/28/8aec283387de5a40a023ab3ab5fecdd9.jpg"
+             width="220">
+    </div>
+
+</div>
+
+<footer>
+    © pardal23 — Motor Cegonha
+</footer>
+
+</body>
+</html>
