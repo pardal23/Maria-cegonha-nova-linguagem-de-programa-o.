@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<title>Cegonha OS — Desktop</title>
+
+<style>
+body {
+    margin:0;
+    padding:0;
+    font-family:Segoe UI, Arial;
+    background:linear-gradient(135deg,#1e3c72,#2a5298);
+    height:100vh;
+    overflow:hidden;
+}
+
+/* Desktop */
+.desktop {
+    position:relative;
+    width:100%;
+    height:100%;
+}
+
+/* Barra de tarefas */
+.taskbar {
+    position:absolute;
+    bottom:0;
+    left:0;
+    right:0;
+    height:40px;
+    background:rgba(20,20,20,0.7);
+    backdrop-filter:blur(10px);
+    display:flex;
+    align-items:center;
+    padding:0 10px;
+    color:#fff;
+    font-size:13px;
+}
+
+/* Ícones */
+.icone {
+    position:absolute;
+    width:70px;
+    text-align:center;
+    color:#fff;
+    font-size:12px;
+}
+.icone svg {
+    width:40px;
+    height:40px;
+    display:block;
+    margin:0 auto 4px;
+}
+
+/* Janelas */
+janela11 {
+    display:block;
+    width:360px;
+    background:rgba(255,255,255,0.65);
+    backdrop-filter:blur(14px);
+    border:1px solid rgba(255,255,255,0.4);
+    border-radius:14px;
+    box-shadow:0 8px 30px rgba(0,0,0,0.25);
+    overflow:hidden;
+    position:absolute;
+}
+
+janela11-topo {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:8px 12px;
+    background:rgba(255,255,255,0.35);
+    font-size:13px;
+    color:#222;
+    font-weight:500;
+}
+
+janela11-botoes {
+    display:flex;
+    gap:6px;
+}
+
+janela11-botao {
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    background:#ccc;
+}
+.min { background:#f4c542; }
+.max { background:#4cd964; }
+.close { background:#ff3b30; }
+
+janela11-corpo {
+    padding:12px;
+    background:rgba(255,255,255,0.55);
+    font-size:13px;
+    color:#333;
+}
+
+/* POSIÇÕES DAS JANELAS */
+#janela-graficos { top:40px; left:140px; }
+#janela-radar    { top:80px; right:180px; }
+#janela-matrix   { bottom:120px; left:220px; }
+#janela-relogio  { bottom:160px; right:280px; }
+
+/* Conteúdo */
+.grafico-box {
+    background:#ffffffaa;
+    border-radius:10px;
+    padding:10px;
+    margin:8px 0;
+    text-align:center;
+}
+.grafico-titulo {
+    font-size:14px;
+    margin-bottom:6px;
+    font-weight:600;
+}
+
+/* Onda */
+.onda {
+    stroke-dasharray:200;
+    stroke-dashoffset:200;
+    animation:desenhar 3s ease forwards;
+}
+@keyframes desenhar { to { stroke-dashoffset:0; } }
+
+/* Radar */
+.radar-linha {
+    transform-origin:100px 100px;
+    animation:girar 4s linear infinite;
+}
+@keyframes girar { to { transform:rotate(360deg); } }
+
+/* Barra de progresso */
+.prog {
+    width:260px;
+    height:14px;
+    background:#ddd;
+    border-radius:8px;
+    margin:auto;
+}
+.prog-fill {
+    height:14px;
+    width:0;
+    background:#4cd964;
+    border-radius:8px;
+    animation:progAnim 3s forwards;
+}
+@keyframes progAnim { to { width:260px; } }
+
+/* Spinner */
+.spin {
+    width:32px;
+    height:32px;
+    border:4px solid #007aff;
+    border-top-color:transparent;
+    border-radius:50%;
+    margin:auto;
+    animation:spinAnim 1s linear infinite;
+}
+@keyframes spinAnim { to { transform:rotate(360deg); } }
+
+/* Matrix */
+.matrix-line {
+    color:#0f0;
+    font-family:monospace;
+    animation:matrixFade 1.2s infinite;
+}
+@keyframes matrixFade {
+    0% { opacity:0; filter:blur(3px); }
+    50% { opacity:1; filter:blur(0); }
+    100% { opacity:0; filter:blur(3px); }
+}
+
+/* Relógio */
+.clock-hand { transform-origin:100px 100px; }
+.clock-hour { stroke:#333; stroke-width:4; animation:hourAnim 43200s linear infinite; }
+.clock-min  { stroke:#333; stroke-width:3; animation:minAnim 3600s linear infinite; }
+.clock-sec  { stroke:#ff3b30; stroke-width:2; animation:secAnim 60s linear infinite; }
+
+@keyframes hourAnim { to { transform:rotate(360deg); } }
+@keyframes minAnim  { to { transform:rotate(360deg); } }
+@keyframes secAnim  { to { transform:rotate(360deg); } }
+
+</style>
+</head>
+<body>
+
+<div class="desktop">
+
+    <!-- ÍCONES EM SVG -->
+    <div class="icone" style="top:40px;left:30px;">
+        <svg><circle cx="20" cy="20" r="18" fill="#fff"/></svg>
+        Gráficos
+    </div>
+
+    <div class="icone" style="top:120px;left:30px;">
+        <svg><rect x="5" y="5" width="30" height="30" fill="#fff"/></svg>
+        Radar
+    </div>
+
+    <div class="icone" style="top:200px;left:30px;">
+        <svg><polygon points="20,5 35,35 5,35" fill="#fff"/></svg>
+        Matrix
+    </div>
+
+    <div class="icone" style="top:280px;left:30px;">
+        <svg><circle cx="20" cy="20" r="18" stroke="#fff" stroke-width="4" fill="none"/></svg>
+        Relógio
+    </div>
+
+    <!-- Barra de tarefas -->
+    <div class="taskbar">Cegonha OS — sessão ativa</div>
+
+    <!-- JANELA 1 — GRÁFICOS -->
+    <janela11 id="janela-graficos">
+        <janela11-topo>
+            App Gráficos
+            <janela11-botoes>
+                <janela11-botao class="min"></janela11-botao>
+                <janela11-botao class="max"></janela11-botao>
+                <janela11-botao class="close"></janela11-botao>
+            </janela11-botoes>
+        </janela11-topo>
+        <janela11-corpo>
+            <cegonha>
+                cegonha("<div class='grafico-box'><div class='grafico-titulo'>Onda Animada</div><svg width='300' height='80'><path d='M0 40 Q 40 0 80 40 T 160 40 T 240 40 T 320 40' fill='none' stroke='#007aff' stroke-width='4' class='onda'></path></svg></div>")
+                cegonha("<div class='grafico-box'><div class='grafico-titulo'>Barra de Progresso</div><div class='prog'><div class='prog-fill'></div></div></div>")
+            </cegonha>
+        </janela11-corpo>
+    </janela11>
+
+    <!-- JANELA 2 — RADAR -->
+    <janela11 id="janela-radar">
+        <janela11-topo>
+            App Radar
+            <janela11-botoes>
+                <janela11-botao class="min"></janela11-botao>
+                <janela11-botao class="max"></janela11-botao>
+                <janela11-botao class="close"></janela11-botao>
+            </janela11-botoes>
+        </janela11-topo>
+        <janela11-corpo>
+            <cegonha>
+                cegonha("<div class='grafico-box'><div class='grafico-titulo'>Radar Futurista</div><svg width='200' height='200'><circle cx='100' cy='100' r='80' stroke='#0af' stroke-width='2' fill='none'></circle><line x1='100' y1='100' x2='180' y2='100' stroke='#0af' stroke-width='3' class='radar-linha'></line></svg></div>")
+            </cegonha>
+        </janela11-corpo>
+    </janela11>
+
+    <!-- JANELA 3 — MATRIX -->
+    <janela11 id="janela-matrix">
+        <janela11-topo>
+            App Matrix
+            <janela11-botoes>
+                <janela11-botao class="min"></janela11-botao>
+                <janela11-botao class="max"></janela11-botao>
+                <janela11-botao class="close"></janela11-botao>
+            </janela11-botoes>
+        </janela11-topo>
+        <janela11-corpo>
+            <cegonha>
+                cegonha("<div class='grafico-box'><div class='grafico-titulo'>Matrix</div><div class='matrix-line'>0101010101010101010101010101</div><div class='matrix-line'>1100101010010101010101010101</div><div class='matrix-line'>0101010110010101010101010101</div><div class='matrix-line'>1100101010010101010101010101</div></div>")
+            </cegonha>
+        </janela11-corpo>
+    </janela11>
+
+    <!-- JANELA 4 — RELÓGIO -->
+    <janela11 id="janela-relogio">
+        <janela11-topo>
+            App Relógio
+            <janela11-botoes>
+                <janela11-botao class="min"></janela11-botao>
+                <janela11-botao class="max"></janela11-botao>
+                <janela11-botao class="close"></janela11-botao>
+            </janela11-botoes>
+        </janela11-topo>
+        <janela11-corpo>
+            <cegonha>
+                cegonha("<div class='grafico-box'><div class='grafico-titulo'>Relógio Analógico</div><svg width='200' height='200'><circle cx='100' cy='100' r='90' fill='none' stroke='#333' stroke-width='4'></circle><line x1='100' y1='100' x2='100' y2='50' class='clock-hand clock-hour'></line><line x1='100' y1='100' x2='100' y2='40' class='clock-hand clock-min'></line><line x1='100' y1='100' x2='100' y2='30' class='clock-hand clock-sec'></line></svg></div>")
+            </cegonha>
+        </janela11-corpo>
+    </janela11>
+
+</div>
+
+
+
+
+
+   
+<script type="text/javascript">
+//<![CDATA[
+
+/* =========================
+   FUNÇÕES SEGURAS EXTRA
+   ========================= */
+
+// repetir texto n vezes
+function repetir(str, n) {
+    n = Number(n) || 0;
+    if (n < 0 || n > 1000) n = 0;
+    return String(str).repeat(n);
+}
+
+/* =========================
+   SANDBOX CEGONHA — MÁXIMA
+   ========================= */
+
+function sandboxCegonha(html) {
+    const proibidos = [
+        /window\b/i,
+        /document\b/i,
+        /eval\b/i,
+        /Function\b/i,
+        /onload\b/i,
+        /onerror\b/i,
+        /<script/i,
+        /<\/script/i
+    ];
+
+    return html.replace(/<cegonha>([\s\S]*?)<\/cegonha>/g, function(_, codigo) {
+        for (let r of proibidos) {
+            if (r.test(codigo)) {
+                return "<div style='color:red;padding:10px;border:2px solid red'>" +
+                       "ERRO: bloco cegonha bloqueado pela sandbox por segurança." +
+                       "</div>";
+            }
+        }
+        return "<cegonha>" + codigo + "</cegonha>";
+    });
+}
+
+/* =========================
+   MOTOR CEGONHA 2 — BASE
+   SEM LOOP, SEM ELSE
+   ========================= */
+
+function isExpressaoSegura(expr) {
+    // apenas números, operadores e parênteses
+    return /^[0-9+\-*/().\s%^]*$/.test(expr);
+}
+
+function avaliarExpressaoSegura(expr) {
+    expr = String(expr).trim();
+    if (!isExpressaoSegura(expr) || expr === "") return 0;
+    try {
+        // só operadores matemáticos, nada de nomes
+        return Function('"use strict"; return (' + expr + ')')();
+    } catch (e) {
+        return 0;
+    }
+}
+
+function executarCegonhaSeguro(html) {
+    return html.replace(/<cegonha>([\s\S]*?)<\/cegonha>/g, function(_, codigo) {
+
+        let vars = {};
+        let saida = "";
+
+        let linhas = codigo.split(/\r?\n/)
+            .map(l => l.trim())
+            .filter(l => l !== "");
+
+        linhas.forEach(l => {
+
+            // atribuição: a = 23**67/34
+            if (l.includes("=") && !l.startsWith("cegonha(")) {
+                let partes = l.split("=");
+                if (partes.length >= 2) {
+                    let nome = partes[0].trim();
+                    let valor = partes.slice(1).join("=").trim();
+
+                    if (/^[a-zA-Z_][a-zA-Z0-9_]*$/.test(nome) && isExpressaoSegura(valor)) {
+                        vars[nome] = avaliarExpressaoSegura(valor);
+                    }
+                }
+                return;
+            }
+
+            // comando cegonha(...)
+            if (l.startsWith("cegonha(")) {
+                let conteudo = l.replace(/^cegonha\s*\(|\)$/g, "").trim();
+
+                // literal de string
+                if ((conteudo.startsWith('"') && conteudo.endsWith('"')) ||
+                    (conteudo.startsWith("'") && conteudo.endsWith("'"))) {
+                    saida += conteudo.slice(1, -1);
+                    return;
+                }
+
+                // variável simples
+                if (/^[a-zA-Z_][a-zA-Z0-9_]*$/.test(conteudo) && conteudo in vars) {
+                    saida += vars[conteudo];
+                    return;
+                }
+
+                // expressão numérica segura
+                if (isExpressaoSegura(conteudo)) {
+                    saida += avaliarExpressaoSegura(conteudo);
+                    return;
+                }
+
+                // fallback: se não for nada disso, não executa
+                saida += "";
+            }
+        });
+
+        return "<div style='padding:10px;background:#eee;border-left:4px solid purple'>" +
+               saida +
+               "</div>";
+    });
+}
+
+/* =========================
+   INICIALIZAÇÃO — ANTI‑BLOGGER
+   encadeia com onload existente
+   ========================= */
+
+(function(oldOnload) {
+    window.onload = function(e) {
+        if (typeof oldOnload === "function") {
+            try { oldOnload(e); } catch (err) {}
+        }
+
+        document.querySelectorAll("div[id^='conteudo']")
+            .forEach(function(div) {
+                var seguro = sandboxCegonha(div.innerHTML);
+                div.innerHTML = executarCegonhaSeguro(seguro);
+            });
+    };
+})(window.onload);
+
+//]]>
+</script>
+
+</body>
+</html>
